@@ -13,7 +13,10 @@ exports.getAllPosts = (req, res) =>{
                         postId: doc.id,
                         body: doc.data().body,
                         userHandle: doc.data().userHandle,
-                        createdAt: doc.data().createdAt
+                        createdAt: doc.data().createdAt,
+                        commentCount: doc.data().commentCount,
+                        likeCount: doc.data().likeCount,
+                        userImage: doc.data().userImage
                     })
                 })
                 return res.json(posts)
@@ -92,7 +95,6 @@ exports.commentOnPost = (req, res) => {
         userHandle: req.user.handle,
         userImage: req.user.imageUrl
     }
-    postDocument = db.doc(`/posts/${req.params.postId}`).get()
     db.doc(`/posts/${req.params.postId}`)
         .get()
         .then(doc => {
@@ -107,13 +109,6 @@ exports.commentOnPost = (req, res) => {
         .then(doc => {
             res.status(200).json({newComment})
         })
-        // .then(()=> {
-        //     // @TODO ADD A NOTIFICAITION EACH TIME THERE IS A COMMENT ON A POST
-            
-        //     const newNotification = {
-        //         recipient: postDocument.
-        //     }
-        // })
         .catch(err =>{
             res.status(500).json({err: `this is the error: ${err}`})
         })

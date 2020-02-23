@@ -47,6 +47,7 @@ app.post('/notifications', FBAuth, markNotificationsRead)
 exports.api = functions.region('europe-west1').https.onRequest(app)
 
 // notify users
+// notify on like
 exports.createNotificationOnLike = functions
 .region('europe-west1')
 .firestore.document('likes/{id}')
@@ -55,7 +56,7 @@ exports.createNotificationOnLike = functions
         .doc(`/posts/${snapshot.data().postId}`)
             .get()
             .then(doc => {
-                if(doc.exists){
+                if(doc.exists && doc.data().userHandle !== snapshot.data().userHandle){
                     return db.doc(`/notifications/${snapshot.id}`).set({
                         createdAt: new Date().toISOString(),
                         recipient: doc.data().userHandle,
@@ -74,6 +75,7 @@ exports.createNotificationOnLike = functions
             })
 })
 
+// delete notification on unlike
 exports.DeleteOnUnlike = functions
 .region('europe-west1')
 .firestore.document('likes/{id}')
@@ -89,6 +91,7 @@ exports.DeleteOnUnlike = functions
         })
 })
 
+// notify on a comment
 exports.createNotificationOnComment = functions
 .region('europe-west1')
 .firestore.document('comments/{id}')
@@ -97,7 +100,7 @@ exports.createNotificationOnComment = functions
         .doc(`/posts/${snapshot.data().postId}`)
             .get()
             .then(doc => {
-                if(doc.exists){
+                if(doc.exists && doc.data().userHandle !== snapshot.data().userHandle){
                     return db
                     .doc(`/notifications/${snapshot.id}`).set({
                         createdAt: new Date().toISOString(),
@@ -116,3 +119,5 @@ exports.createNotificationOnComment = functions
                 return err
             })
 })
+
+// trigger to change imagerUrl of the user everywhere when image is changed
