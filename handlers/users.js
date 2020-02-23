@@ -220,11 +220,25 @@ exports.getUserDetails = (req, res) => {
         postId: doc.id
       })
     })
+    return res.json(userData)
   })
-
+  .catch(err => {
+    return res.status(500).json({'error': `something went wrong error: ${err.code}`})
+  })
 }
 
-exports.markNotificationRead = (req, res) => {
-  
+exports.markNotificationsRead = (req, res) => {
+  let batch = db.batch()
+  req.body.forEach(notificationId => {
+    const notification = db.doc(`/notifications/${notificationId}`)
+    batch.update(notification, {read: true})
+  })
+  batch.commit()
+  .then(()=> {
+    return res.status(200).json({'message': 'notifications marked read'})
+  })
+  .catch(err => {
+    return res.status(500).json({'error': `this is the error: ${err.code}`})
+  })
 }
 

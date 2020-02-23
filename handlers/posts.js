@@ -1,5 +1,6 @@
 const { db } = require('../util/admin')
 
+// get all posts
 exports.getAllPosts = (req, res) =>{
     db
         .collection('posts')
@@ -20,6 +21,7 @@ exports.getAllPosts = (req, res) =>{
             .catch(err => console.error(err))
 }
 
+// post a post
 exports.postAPost = (req, res) => {
     if (req.body.body.trim() === '') {
         return res.status(400).json({body: 'Body must not be empty'});
@@ -46,6 +48,7 @@ exports.postAPost = (req, res) => {
         })
 }
 
+// get a post
 exports.getPosts = (req, res) => {
     let postData = {}
     db.doc(`/posts/${req.params.postId}`).get()
@@ -79,6 +82,7 @@ exports.getPosts = (req, res) => {
         })
 }
 
+// comment on a post
 exports.commentOnPost = (req, res) => {
     if (req.body.body.trim() === '') return res.status(400).json({error: 'comment must not be empty'})
     const newComment = {
@@ -115,6 +119,7 @@ exports.commentOnPost = (req, res) => {
         })
 }
 
+// like a post
 exports.likePost = (req, res) => {
     const likeDocument = db
         .collection('likes')
@@ -162,6 +167,7 @@ exports.likePost = (req, res) => {
         });
 }
 
+// unlike a post
 exports.unlikePost = (req, res) => {
     const likeDocument = db
     .collection('likes')
@@ -206,6 +212,7 @@ exports.unlikePost = (req, res) => {
     });
 }
 
+// delete a post
 exports.deletePost = (req, res) => {
     const postDocument = db.doc(`/posts/${req.params.postId}`)
     postDocument.get()

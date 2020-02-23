@@ -22,7 +22,7 @@ const {
     addUserDetails, 
     getAuthenticatedUser, 
     getUserDetails,
-    markNotificationRead
+    markNotificationsRead
 } = require('./handlers/users')
 
 // Posts routes
@@ -41,7 +41,7 @@ app.post('/user/image', FBAuth, uploadImage)
 app.post('/user', FBAuth, addUserDetails)
 app.get('/user', FBAuth, getAuthenticatedUser)
 app.get('/user/:handle', getUserDetails)
-app.post('/notifications', FBAuth, markNotificationRead)
+app.post('/notifications', FBAuth, markNotificationsRead)
 
 // https://baseurl.com/api/posts
 exports.api = functions.region('europe-west1').https.onRequest(app)
