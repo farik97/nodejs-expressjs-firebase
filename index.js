@@ -121,3 +121,9 @@ exports.createNotificationOnComment = functions
 })
 
 // trigger to change imagerUrl of the user everywhere when image is changed
+exports.changeImageUrl = functions
+.region('europe-west1')
+.firestore.document('/users/{userId}')
+    .onUpdate((change)=>{
+        
+    })
