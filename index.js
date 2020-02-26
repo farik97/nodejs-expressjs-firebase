@@ -138,6 +138,7 @@ exports.changeImageUrl = functions
         }
     })
 
+// delete post related data when post deleted
 exports.onPostDeleted = functions
 .region('europe-west1')
 .firestore.document('/posts/{postId}')
