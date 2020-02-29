@@ -125,7 +125,7 @@ exports.getAuthenticatedUser = (req, res) => {
     .then(data => {
       userData.notifications = []
       data.forEach(doc => {
-        userData.notifications.push({
+        userData.notifications.push({git remote add origin https://github.com/farik97/react-myfirst-social.git
           recipient: doc.data().recipient,
           sender: doc.data().sender,
           read: doc.data().read,
@@ -242,3 +242,4 @@ exports.markNotificationsRead = (req, res) => {
   })
 }
 
+/// lalalalal

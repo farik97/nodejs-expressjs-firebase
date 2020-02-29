@@ -142,7 +142,7 @@ exports.changeImageUrl = functions
 exports.onPostDeleted = functions
 .region('europe-west1')
 .firestore.document('/posts/{postId}')
-    .onDelete((snapshot, context)=>{
+.onDelete((snapshot, context)=>{
         const postId = context.params.postId
         const batch = db.batch()
         return db.collection('comments').where('postId', '==', postId).get()
@@ -167,4 +167,4 @@ exports.onPostDeleted = functions
         .catch(err =>{
             return err
         })
-    })
+})
